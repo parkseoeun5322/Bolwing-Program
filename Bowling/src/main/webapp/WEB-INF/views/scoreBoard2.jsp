@@ -8,26 +8,27 @@
 <title>Insert title here</title>
 <style type="text/css">
 .container {
-	width: 1080px !important;
+	width: 1200px !important;
 	min-height: 500px !important;
-	margin: 30px auto !important;
-	position: relative !important;
+	margin-bottom: 35px;
 }
 
 .scoreBoardContainer {
-	width: 550px !important;
+	width: 730px !important;
 	border: 1px solid #ddd !important;
 	border-radius: 10px !important;
-	padding: 30px 0 !important;
+	padding: 30px !important;
+	box-sizing: border-box;
+	margin: 30px 0 0 0;
 }
 
 .scoreBoardContainer > div {
-	width: 450px !important;
+	width: 632px !important;
 	margin: 0 auto !important;
 }
 
 .scoreBoardWrap {
-	width: 420px !important;
+	width: 632px !important;
 	position: relative !important;
 }
 
@@ -48,22 +49,22 @@
 }
 
 .scoreBoard {
-	width: 417px;
+	width: 632px;
 	border: 1px solid #919191;
 	margin: 15px 0;
 	text-align: center;
 }
 
 .scoreBoard > div {
-	line-height: 30px;
-	height: 30px;
+	line-height: 45px;
+	height: 45px;
 	overflow: hidden;
 }
 
 .scoreBoard > div > div {
 	border: 1px solid #919191;
-	line-height: 30px;
-	height: 30px;
+	line-height: 45px;
+	height: 45px;
 }
 
 .subject {
@@ -75,56 +76,54 @@
 }
 
 .subject > div:not(.totalScore, .frame10) {
-	width: 34px;
+	width: 50px;
 	float: left;
 	box-sizing: border-box;
 }
 
 .subject div.frame10 {
-	width: 69px;
+	width: 120px;
 	float: left;
 	box-sizing: border-box;
 }
 
 .pins > div:not(.totalScore, .frame10) {
-	width: 17px;
+	width: 25px;
 	float: left;
 	box-sizing: border-box;
 }
 
 .pins > div.frame10 {
-	width: 23px;
-	float: left;
-	box-sizing: border-box;
-}
-
-.totalScore {
 	width: 40px;
 	float: left;
 	box-sizing: border-box;
 }
 
+.totalScore {
+	width: 60px;
+	float: left;
+	box-sizing: border-box;
+}
+
 .scores > div:not(.totalScore, .frame10) {
-	width: 34px;
+	width: 50px;
 	float: left;
 	box-sizing: border-box;
 }
 
 .scores > div.frame10 {
-	width: 69px;
+	width: 120px;
 	float: left;
 	box-sizing: border-box;
 }
 
 .proceedingWrap {
-	position: absolute !important;
-	top: 0 !important;
-	right: 30px !important;
-	width: 450px !important;
+	width: 430px !important;
 	height: 500px !important;
-	padding: 40px !important;
+	padding: 40px 0 0 0;
 	box-sizing: border-box !important;
 	background-color: #f2f2f2 !important;
+	margin: 30px 0 0 0;
 }
 
 .proceeding {
@@ -199,21 +198,21 @@
 }
 
 .isStrike1 {
-	background: url("img/strike1.png") center/16px no-repeat;
+	background: url("img/strike1.png") center/25px no-repeat;
 	color: rgba(0, 0, 0, 0) !important;
 }
 
 .isStrike1 + div.frame {
-	background: url("img/strike2.png") center/15px no-repeat;
+	background: url("img/strike2.png") center/25px no-repeat;
 }
 
 .isStrike {
-	background: url("img/strike.png") center/23px no-repeat;
+	background: url("img/strike.png") center/40px no-repeat;
 	color: rgba(0, 0, 0, 0) !important;
 }
 
 .isSpare {
-	background: url("img/spare.png") center/28px no-repeat;
+	background: url("img/spare.png") center/42px no-repeat;
 	color: rgba(0, 0, 0, 0) !important;
 }
 
@@ -229,137 +228,148 @@
 </head>
 <body>
 	<div class="container">
-		<div class="scoreBoardContainer">
-			<div>
-				<h2 style="font-weight: 900;">Score Board</h2>
-				<p>플레이어 수는 최대 4명입니다.</p>
-				<c:forEach items="${list }" var="vo" varStatus="status">
-					<div class="scoreBoardWrap">
-						<c:set var="pseq" value="${vo.pseq }"></c:set>
-						<h5>${vo.name }<span style="font-weight: 400; font-size: 15px; margin: 0 0 0 5px;">님</span></h5>
-						<h4 class="event event${vo.pseq }">
-							<c:if test="${vo.total_score ne null}">
-								<c:if test="${vo.total_score >= 200 }">Perfect!</c:if>
-								<c:if test="${vo.total_score >= 100 && vo.total_score < 200 }">Good!</c:if>
-								<c:if test="${vo.total_score < 100 }">Game Over!</c:if>
-							</c:if>
-							<c:if test="${vo.total_score eq null}">
-								<c:if test="${gvo.pseq eq vo.pseq }">Playing!</c:if>
-								<c:if test="${gvo.pseq ne vo.pseq }">Waiting...</c:if>
-							</c:if>
-						</h4>
-						<div class="scoreBoard">
-							<div class="subject">
-								<c:forEach var="i" begin="1" end="10">
-									<c:if test="${i eq 10 }">
-										<div class="frame player${vo.pseq } frame10">10</div>
-									</c:if>
-									<c:if test="${i ne 10 }">
-										<div class="frame player${vo.pseq } frame${i }">${i }</div>
-									</c:if>
-								</c:forEach>
-								<div class="totalScore">Total</div>
-							</div>
-							<div class="pins pins${vo.pseq}">
-								<%--
-								<c:forEach var="j" begin="1" end="10" varStatus="status2">
-									<td>${vo[ball_j_1]}</td>
-									<td>${vo[ball_j_2]}</td>
-								</c:forEach>
-								 --%>
-								<c:forEach items="${printMap }" var="printMap">
-									<c:if test="${printMap.get('pseq') eq vo.pseq}">
-										<c:set var="bonus" value="${printMap.get('bonusList') }"></c:set>
-									</c:if>
-								</c:forEach>
-								<div class="frame player${vo.pseq } frame1 ${bonus[0]}">${vo.ball_1_1 }</div>
-								<div class="frame player${vo.pseq } frame1 ${bonus[1] }">${vo.ball_1_2}</div>
-								<div class="frame player${vo.pseq } frame2 ${bonus[2] }">${vo.ball_2_1}</div>
-								<div class="frame player${vo.pseq } frame2 ${bonus[3] }">${vo.ball_2_2}</div>
-								<div class="frame player${vo.pseq } frame3 ${bonus[4] }">${vo.ball_3_1}</div>
-								<div class="frame player${vo.pseq } frame3 ${bonus[5] }">${vo.ball_3_2}</div>
-								<div class="frame player${vo.pseq } frame4 ${bonus[6] }">${vo.ball_4_1}</div>
-								<div class="frame player${vo.pseq } frame4 ${bonus[7] }">${vo.ball_4_2}</div>
-								<div class="frame player${vo.pseq } frame5 ${bonus[8] }">${vo.ball_5_1}</div>
-								<div class="frame player${vo.pseq } frame5 ${bonus[9] }">${vo.ball_5_2}</div>
-								<div class="frame player${vo.pseq } frame6 ${bonus[10] }">${vo.ball_6_1}</div>
-								<div class="frame player${vo.pseq } frame6 ${bonus[11] }">${vo.ball_6_2}</div>
-								<div class="frame player${vo.pseq } frame7 ${bonus[12] }">${vo.ball_7_1}</div>
-								<div class="frame player${vo.pseq } frame7 ${bonus[13] }">${vo.ball_7_2}</div>
-								<div class="frame player${vo.pseq } frame8 ${bonus[14] }">${vo.ball_8_1}</div>
-								<div class="frame player${vo.pseq } frame8 ${bonus[15] }">${vo.ball_8_2}</div>
-								<div class="frame player${vo.pseq } frame9 ${bonus[16] }">${vo.ball_9_1}</div>
-								<div class="frame player${vo.pseq } frame9 ${bonus[17] }">${vo.ball_9_2}</div>
-								<div class="frame player${vo.pseq } frame10 ${bonus[18] }">${vo.ball_10_1 }</div>
-								<div class="frame player${vo.pseq } frame10 ${bonus[19] }">${vo.ball_10_2 }</div>
-								<div class="frame player${vo.pseq } frame10 ${bonus[20] }">${vo.ball_10_3 }</div>
-								<div class="totalScore total${vo.pseq }">
-									<c:choose>
-										<c:when test="${vo.total_score ne null }">${vo.total_score}</c:when>
-										<c:otherwise>
-											<c:forEach items="${printMap }" var="printMap">
-												<c:if test="${printMap.get('pseq') eq vo.pseq}">${printMap.get('totalScore') }</c:if>
+		<div class="row">
+			<div class="scoreBoardContainer col-xl">
+				<div>
+					<h2 style="font-weight: 900;">Score Board</h2>
+					<p>플레이어 수는 최대 4명입니다.</p>
+					<c:forEach items="${list }" var="vo" varStatus="status">
+						<div class="scoreBoardWrap">
+							<c:set var="pseq" value="${vo.pseq }"></c:set>
+							<h5>${vo.name }<span style="font-weight: 400; font-size: 15px; margin: 0 0 0 5px;">님</span></h5>
+							<h4 class="event event${vo.pseq }">
+								<c:if test="${vo.total_score ne null}">
+									<c:if test="${vo.total_score >= 200 }">Perfect!</c:if>
+									<c:if test="${vo.total_score >= 100 && vo.total_score < 200 }">Good!</c:if>
+									<c:if test="${vo.total_score < 100 }">Game Over!</c:if>
+								</c:if>
+								<c:if test="${vo.total_score eq null}">
+									<c:if test="${gvo.pseq eq vo.pseq }">Playing!</c:if>
+									<c:if test="${gvo.pseq ne vo.pseq }">Waiting...</c:if>
+								</c:if>
+							</h4>
+							<div class="scoreBoard">
+								<div class="subject">
+									<c:forEach var="i" begin="1" end="10">
+										<c:if test="${i eq 10 }">
+											<div class="frame player${vo.pseq } frame10">10</div>
+										</c:if>
+										<c:if test="${i ne 10 }">
+											<div class="frame player${vo.pseq } frame${i }">${i }</div>
+										</c:if>
+									</c:forEach>
+									<div class="totalScore">Total</div>
+								</div>
+								<div class="pins pins${vo.pseq}">
+									<%--
+									<c:forEach var="j" begin="1" end="10" varStatus="status2">
+										<td>${vo[ball_j_1]}</td>
+										<td>${vo[ball_j_2]}</td>
+									</c:forEach>
+									 --%>
+									<c:forEach items="${printMap }" var="printMap">
+										<c:if test="${printMap.get('pseq') eq vo.pseq}">
+											<c:set var="bonus" value="${printMap.get('bonusList') }"></c:set>
+										</c:if>
+									</c:forEach>
+									<div class="frame player${vo.pseq } frame1 ${bonus[0]}">${vo.ball_1_1 }</div>
+									<div class="frame player${vo.pseq } frame1 ${bonus[1] }">${vo.ball_1_2}</div>
+									<div class="frame player${vo.pseq } frame2 ${bonus[2] }">${vo.ball_2_1}</div>
+									<div class="frame player${vo.pseq } frame2 ${bonus[3] }">${vo.ball_2_2}</div>
+									<div class="frame player${vo.pseq } frame3 ${bonus[4] }">${vo.ball_3_1}</div>
+									<div class="frame player${vo.pseq } frame3 ${bonus[5] }">${vo.ball_3_2}</div>
+									<div class="frame player${vo.pseq } frame4 ${bonus[6] }">${vo.ball_4_1}</div>
+									<div class="frame player${vo.pseq } frame4 ${bonus[7] }">${vo.ball_4_2}</div>
+									<div class="frame player${vo.pseq } frame5 ${bonus[8] }">${vo.ball_5_1}</div>
+									<div class="frame player${vo.pseq } frame5 ${bonus[9] }">${vo.ball_5_2}</div>
+									<div class="frame player${vo.pseq } frame6 ${bonus[10] }">${vo.ball_6_1}</div>
+									<div class="frame player${vo.pseq } frame6 ${bonus[11] }">${vo.ball_6_2}</div>
+									<div class="frame player${vo.pseq } frame7 ${bonus[12] }">${vo.ball_7_1}</div>
+									<div class="frame player${vo.pseq } frame7 ${bonus[13] }">${vo.ball_7_2}</div>
+									<div class="frame player${vo.pseq } frame8 ${bonus[14] }">${vo.ball_8_1}</div>
+									<div class="frame player${vo.pseq } frame8 ${bonus[15] }">${vo.ball_8_2}</div>
+									<div class="frame player${vo.pseq } frame9 ${bonus[16] }">${vo.ball_9_1}</div>
+									<div class="frame player${vo.pseq } frame9 ${bonus[17] }">${vo.ball_9_2}</div>
+									<div class="frame player${vo.pseq } frame10 ${bonus[18] }">${vo.ball_10_1 }</div>
+									<div class="frame player${vo.pseq } frame10 ${bonus[19] }">${vo.ball_10_2 }</div>
+									<div class="frame player${vo.pseq } frame10 ${bonus[20] }">${vo.ball_10_3 }</div>
+									<div class="totalScore total${vo.pseq }">
+										<c:choose>
+											<c:when test="${vo.total_score ne null }">${vo.total_score}</c:when>
+											<c:otherwise>
+												<c:forEach items="${printMap }" var="printMap">
+													<c:if test="${printMap.get('pseq') eq vo.pseq}">${printMap.get('totalScore') }</c:if>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div>
+								<div id="scores${vo.pseq }" class="scores">
+									<c:forEach items="${printMap }" var="printMap">
+										<c:if test="${printMap.get('pseq') eq vo.pseq}">
+											<c:forEach items="${printMap.get('scoreList') }" var="score"
+												varStatus="stt">
+												<c:choose>
+													<c:when test="${stt.index eq 9 }">
+														<div class="frame player${vo.pseq } frame10">${score }</div>
+													</c:when>
+													<c:otherwise>
+														<div class="frame player${vo.pseq } frame${stt.index+1 }">${score }</div>
+													</c:otherwise>
+												</c:choose>
 											</c:forEach>
-										</c:otherwise>
-									</c:choose>
+											<div class="totalScore">${gvo.totalScore }</div>
+										</c:if>
+									</c:forEach>
 								</div>
 							</div>
-							<div id="scores${vo.pseq }" class="scores">
-								<c:forEach items="${printMap }" var="printMap">
-									<c:if test="${printMap.get('pseq') eq vo.pseq}">
-										<c:forEach items="${printMap.get('scoreList') }" var="score"
-											varStatus="stt">
-											<c:choose>
-												<c:when test="${stt.index eq 9 }">
-													<div class="frame player${vo.pseq } frame10">${score }</div>
-												</c:when>
-												<c:otherwise>
-													<div class="frame player${vo.pseq } frame${stt.index+1 }">${score }</div>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-										<div class="totalScore">${gvo.totalScore }</div>
-									</c:if>
-								</c:forEach>
-							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div> <!-- .scoreBoardContainer -->
+			<div class="col-xl">
+			<div class="proceedingWrap">
+				<div class="proceeding y">
+					<div class="playerNameContainer">
+						<i class="fas fa-user"></i>
+						<div id="playerNameWrap">
+							<b id="playerName"></b><span>차례입니다!</span>
 						</div>
 					</div>
-				</c:forEach>
-			</div>
-		</div>
-		<div class="proceedingWrap">
-			<div class="proceeding y">
-				<div class="playerNameContainer">
-					<i class="fas fa-user"></i>
-					<div id="playerNameWrap">
-						<b id="playerName"></b><span>차례입니다!</span>
+					<div id="rollBtn"></div>
+					<div class="deleteBtn" onclick="delete_roll()">
+						<i class="fas fa-backspace"></i> <a>delete</a>
+					</div>
+					<div class="btnContainer">
+						<div class="selfTestBtnWrap">
+							<a onclick="selfTest(1, ${gvo.gseq})">All Spare</a> <a
+								onclick="selfTest(2, ${gvo.gseq })">Perfect</a> <a
+								onclick="selfTest(3, ${gvo.gseq })">All Random</a>
+						</div>
+						<br> <a onclick="reset();" class="resetBtn">Reset</a>
 					</div>
 				</div>
-				<div id="rollBtn"></div>
-				<div class="deleteBtn" onclick="delete_roll()">
-					<i class="fas fa-backspace"></i> <a>delete</a>
-				</div>
-				<div class="btnContainer">
-					<div class="selfTestBtnWrap">
-						<a onclick="selfTest(1, ${gvo.gseq})">All Spare</a> <a
-							onclick="selfTest(2, ${gvo.gseq })">Perfect</a> <a
-							onclick="selfTest(3, ${gvo.gseq })">All Random</a>
+				<div class="proceeding n">
+					<div>게임이 종료되었습니다!</div>
+					<div class="deleteBtn" onclick="delete_roll()">
+						<i class="fas fa-backspace"></i> <a>delete</a>
 					</div>
-					<br> <a onclick="reset();" class="resetBtn">Reset</a>
+					<br />
+					<div class="btnContainer">
+						<a onclick="reset();" class="resetBtn">Reset</a>
+					</div>
 				</div>
+			</div> <!-- .proceedingWrap -->
 			</div>
-			<div class="proceeding n">
-				<div>게임이 종료되었습니다!</div>
-				<div class="deleteBtn" onclick="delete_roll()">
-					<i class="fas fa-backspace"></i> <a>delete</a>
-				</div>
-				<br />
-				<div class="btnContainer">
-					<a onclick="reset();" class="resetBtn">Reset</a>
-				</div>
-			</div>
+		</div> <!-- .row -->
+	</div> <!-- .container -->
+	<div class="bonusEvent" style="display: none;">
+		<div style="position:absolute; top: 0; left: 0; width: 100%; height:100vh; background-color: #fff; opacity: 0.5"></div>
+		<div style="position: absolute; top: 10%; left: 30%; z-index: 1;">
+			<img id="bonusEvent-img" alt="" src="img/play-bowling-bowling.gif">
 		</div>
 	</div>
+
 	<script type="text/javascript">
 		/* 수정 모드로 바꿈 > 핀 삭제 > 핀 입력 > 핀 삭제시 오류 
 			update = true > 삭제할 때마다 frame, turn, pseq 변수에 값 초기화 
@@ -376,10 +386,11 @@
 		//초기 화면 셋팅
 		proceeding("${gvo.proceeding}", ${gvo.pseq}, ${gvo.frame}, ${gvo.remainPin}, "${gvo.playerName}");
 
-		//게임 종료 여부 판별 > 스코어보드 우측 상단 알림판 출력(핀버튼, 플레이어 이름/수정중, 배경 하이라이트)
+		// proceeding() : 게임 종료 여부 판별 > 메인 알림판 출력(핀버튼, 플레이어 이름/수정중, 배경 하이라이트)
 		function proceeding(proceeding, pseq, frame, remainPin, name) {
 			if(proceeding == "Y") {
 				var ele = "";
+				
 				//종료 여부 판별
 				$(".proceeding.y").css("display", "block");
 				$(".proceeding.n").css("display", "none");
@@ -412,13 +423,12 @@
 			}
 		}
 
-		//점수판 우측 상단에 이벤트 알림 출력
+		//eventPrint() : 점수판 우측 상단에 이벤트 알림 출력
 		function eventPrint(type, data, prevPseq, nextPseq, bonus) {
 			//입력, 삭제, 셀프테스트, 리셋, 수정중, 수정완료
 			if(type == "reset") {
 				$(".event").text("");
 			} else if(type == "delete") {
-				console.log("frame = " + data.frame);
 				if(data.frame == 10) {
 					$(".event" + prevPseq).text("Playing!");
 					$(".event").each(function(index) {
@@ -430,7 +440,6 @@
 					$(".event").not(".event" + prevPseq).text("Waiting!");
 				}
 			} else {
-				console.log(data);
 				if(data.totalScore != null) {	//플레이어별 게임 완료
 					if(data.totalScore >= 200) {
 						$(".event" + prevPseq).text("Perfect!");
@@ -441,9 +450,9 @@
 					}
 				} else {	//플레이어별 게임 완료 x
 					if(bonus == "isStrike" || bonus == "isStrike1") {
-						$(".event" + prevPseq).text("Strike!");
+						bonusEvent(prevPseq, "strike");
 					} else if(bonus == "isSpare") {
-						$(".event" + prevPseq).text("Spare!");
+						bonusEvent(prevPseq, "spare");
 					} else {
 						if(data.frame == 10) {
 							$(".event").each(function(index) {
@@ -458,31 +467,32 @@
 					$(".event" + nextPseq).text("Playing!");
 				}
 			}
-			//1. 게임 끝남 > gameover / Perfect! / Good!
-			//2. 게임 안끝남 > strike, spare, waiting, playing
-
-			// 자기 순서 x > waiting
-			// 자기 순서 o > strike, spare, playing
 		}
 
-		//보너스 처리(선택자를 통해 배경 이미지 출력)
+		function bonusEvent(prevPseq, bonus) {
+			$(".event" + prevPseq).text(bonus + "!");
+			$(".bonusEvent").css("display", "block");
+			setTimeout(function() {
+				$("#bonusEvent-img").attr("src", "img/" + bonus + ".gif");
+				//$("#bonusEvent-img").attr("src", "img/" + bonus + ".gif");
+				setTimeout(function() { 
+					$(".bonusEvent").css("display", "none");
+					$("#bonusEvent-img").attr("src", "img/play-bowling-bowling.gif");
+				}, 1800);
+			}, 1600);
+		} //bonusEvent()
+
+		//isBonus() : 보너스 처리(선택자를 통해 배경 이미지 출력)
+		//매개변수 : 해당 핀 보너스 선택자 / 해당 핀 요소 
 		function isBonus(bonus, $node) {
 			if(bonus != null) {
 				if(bonus == "") {
 					$node.removeClass("isStrike1 isStrike isSpare");
 				} else {
-					//alert("isBonus() : " + bonus);
 					$node.addClass(bonus);
 				}
 			} else {
 				$node.removeClass("isStrike1 isStrike isSpare");
-				/*
-				if(pseq == null) {	//전체 초기화 (리셋 / selftTest 초기화)
-					$(".event").text("");	
-				} else {		//해당프레임만 초기화(삭제, 수정중)
-					$(".event" + pseq).text("");
-				}
-				*/
 			}
 		}
 
@@ -495,7 +505,6 @@
 				data = map;					//리셋할 때는 map이 아닌 gvo를 받아오므로 data변수를 초기화시킴
 				isBonus(null, $(".frame"));
 				eventPrint("reset");
-				//$(".event").text("");
 			} else {
 				if(turn == 1) {
 					$pin = $(".pins" + prevPseq).children(".frame" + frame).eq(0);
@@ -523,14 +532,8 @@
 					$pin.text("");
 					isBonus(null, $pin);
 					eventPrint("delete", data, prevPseq, nextPseq, "");
-					//$pin.removeClass("isStrike");
-					//$pin.removeClass("isSpare");
 				}
-				
-				//$("#total" + pseq).text(data.totalScore);
 			}
-
-			//console.log("setScore() totalScore = " + data.totalScore);
 		} //setScore()
 		
 		// 각 프레임당 총점 부분 / 플레이어 당 최종 총점 출력
@@ -566,6 +569,7 @@
 			
 			setScore(type, frame1, pseq1, data.pseq, turn1, map, num);
 			scoreBoard(type, pseq1, map.scoreList, map.totalScore);
+			roll = num;
 			frame = data.frame;
 			pseq = data.pseq;
 			turn = data.turn;
@@ -607,18 +611,12 @@
 						if( (${gvo.numberOfPlayer} == 1 && updateFrame != data.frame) ||
 							(${gvo.numberOfPlayer} != 1 && updatePseq != data.pseq) ) {
 							// 핀 수정이 끝났을 경우
-							//update = false; updated = false;
 							scoreBoard("updated", updatePseq, map.scoreList, map.totalScore);
-							//proceeding(data.proceeding, pseq, frame, remainPin, data.playerName);
 							resetUpdate();
-							//$(".deleteBtn").css("display", "inline");
 						} else {	//핀 수정이 진행중인 경우
 							var selector = ".player" + updatePseq + ".frame" + updateFrame;
 							scoreBoard("updating", updatePseq, map.scoreList, map.totalScore);
 							// 수정 중일때는 각 프레임당 총점 부분과 최종 총점 부분을 비운다
-							//$("#scores" + updatePseq).children("td").empty();
-							//$(".total" + updatePseq).empty();
-							//alert(selector + " / " + updateTurn);
 							isBonus(null, $(".pins").children("div" + selector).eq(updateTurn-1).nextAll(selector));
 							updated = true;
 							proceeding("Y", updatePseq, updateFrame, data.remainPin, "");
@@ -646,12 +644,18 @@
 		
 		// 셀프 테스트 게임
 		function selfTest(selector, gseq) {
+			if(selector == 2 && turn != 1) {
+				if(frame != 10) {
+					alert("나머지 핀 입력을 완료한 후에 퍼펙트 게임이 가능합니다!\n핀 입력을 완료해주세요.");
+					return false;
+				}
+			}
+			
 			$.ajax({
 				url: "selfTest",
 				data: {selector: selector, gseq: gseq},
 				success: function(mapList) {
 					isBonus(null, $(".frame"));
-					//$(".frame").removeClass("isStrike isSpare");	//보너스 선택자 초기화
 					$(".scoreBoard").each(function(index) {
 						var map = mapList[index];
 						for(var i = 0; i < 21; i++) {
@@ -659,18 +663,15 @@
 							var $pin = $(this).find(".pins" + map.pseq).children("div").eq(i);
 							$pin.text(map.pinList[i]);
 							isBonus(map.bonusList[i], $pin);
-							//if(map.bonusList[i] == "isSsike") $pin.addClass(map.bonusList[i]);
-							//else if(map.bonusList[i] == "isSpare") $pin.addClass(map.bonusList[i]);
 						}
 						frame = 11; turn = 1; pseq = 1;
 						remainPin = 10, progress = "N";
 						resetUpdate();	//수정 관련 변수 초기화
 						scoreBoard("selfTest", map.pseq, map.scoreList, map.totalScore);
 						eventPrint("selfTest", map, map.pseq);
-						//$("#total" + map.pseq).text(map.totalScore);
 					});
 				}, error: function(req, text) {
-					alert("테스트가 불가능합니다. 관리자에게 문의하세요.")
+					alert("테스트가 불가능합니다. 관리자에게 문의하세요.");
 				}
 			});
 		} //selfTest()

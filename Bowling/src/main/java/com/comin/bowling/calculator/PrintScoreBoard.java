@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.comin.bowling.vo.GameVO;
 import com.comin.bowling.vo.PlayerVO;
 
 /*
@@ -12,9 +13,14 @@ import com.comin.bowling.vo.PlayerVO;
  */
 
 public class PrintScoreBoard {
-	public HashMap<String, Object> scoreBoard(PlayerVO vo, int frame, int pseq, int turn, int numberOfPlayer) {
+	//public HashMap<String, Object> scoreBoard(PlayerVO vo, int frame, int pseq, int turn, int numberOfPlayer) {
+	public HashMap<String, Object> scoreBoard(PlayerVO pvo, GameVO gvo) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		ArrayList<Integer> scoreList = new ArrayList<Integer>();
+		int frame = gvo.getFrame();
+		int pseq = gvo.getPseq();
+		int turn = gvo.getTurn();
+		int numberOfPlayer = gvo.getNumberOfPlayer();
 		
 		if(frame == 11) {
 			frame = 10; 
@@ -22,18 +28,23 @@ public class PrintScoreBoard {
 		}
 			
 		Score score = new Score();
-		score.initialization();		//초기화
+		score.initialization();		//Score 관련 변수 초기화
 		
-		for (int i = 1; i <= 10; i++) {
-			score.roll(vo.get_Ball(i, 1));
-			score.roll(vo.get_Ball(i, 2));
-			if(i == 10) score.roll(vo.getBall_10_3());
+		for (int i = 1; i <= 10; i++) {		//roll()를 통해 핀 점수 리스트 초기화
+			score.roll(pvo.get_Ball(i, 1));
+			score.roll(pvo.get_Ball(i, 2));
+			if(i == 10) score.roll(pvo.getBall_10_3());
 		}
 		
 		scoreList = score.score(frame);
+		// → score() > 프레임 번호를 넘겨줌으로써 해당 프레임까지의 총점 리스트를 반환
 		
-		map.put("pseq", vo.getPseq());
+		map.put("pseq", pvo.getPseq());
+		// → 해당 플레이어 번호를 map에 추가(스코어보드 총점 출력시 해당 gvo의 플레이어 번호와의 비교를 위해)
+		
 		map.put("bonusList", score.isBonus(frame, turn));
+		// → isBonus() > 프레임 번호화 투구 번호를 넘겨줌으로써 해당 프레임까지의 보너스 리스트를 가져오고 map에 추가
+		
 		map.put("scoreList", scoreList);
 		
 		for (int i = 0; i < 10; i++) {

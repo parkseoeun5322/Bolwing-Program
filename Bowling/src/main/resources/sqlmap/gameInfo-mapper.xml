@@ -20,7 +20,7 @@
 		update CB_GAME set proceeding = #{proceeding},
 		frame = #{frame}, turn = #{turn},
 		remainPin = #{remainPin},
-		pseq = #{pseq}, roll = #{pseq}
+		pseq = #{pseq}, roll = #{roll}
 		where gseq = #{gseq}
 	</update>
 	

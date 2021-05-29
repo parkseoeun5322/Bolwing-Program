@@ -49,7 +49,13 @@ public class ScoreTest {
 		rollSpare();
 		score.roll(3);
 		score.roll(null);
-		assertThat(score.score(2).get(0), is(13));
+		try {
+			assertThat(score.score(2).get(0), is(13));
+			System.out.println("oneSpareGame() Test Success!");
+		} catch (Exception e) {
+			System.out.println("oneSpareGame() Test Fail!");
+		}
+		
 	}
 	
 	@Test
@@ -58,35 +64,60 @@ public class ScoreTest {
 		rollStrike();
 		score.roll(5);
 		score.roll(4);
-		assertThat(score.score(2).get(0), is(19));
+		try {
+			assertThat(score.score(2).get(0), is(19));
+			System.out.println("oneStrikeGame() Test Success!");
+		} catch (Exception e) {
+			System.out.println("oneStrikeGame() Test Fail!");
+		}
 	}
 	
 	@Test
 	public void gutterGame() {
 		score.initialization();
 		rollMany(20, 0);
-		assertThat(score.score(10).get(9), is(0));
+		try {
+			assertThat(score.score(10).get(9), is(0));
+			System.out.println("gutterGame() Test Success!");
+		} catch (Exception e) {
+			System.out.println("gutterGame() Test Fail!");
+		}
 	}
 	
 	@Test
 	public void allOnesGame() {
 		score.initialization();
 		rollMany(20, 1);
-		assertThat(score.score(10).get(9), is(20));
+		try {
+			assertThat(score.score(10).get(9), is(20));
+			System.out.println("allOnesGame() Test Success!");
+		} catch (Exception e) {
+			System.out.println("allOnesGame() Test Fail!");
+		}
 	}
 	
 	@Test
 	public void allSpareGame() {
 		score.initialization();
 		rollMany(21, 5);
-		assertThat(score.score(10).get(9), is(150));
+		try {
+			assertThat(score.score(10).get(9), is(150));
+			System.out.println("allSpareGame() Test Success!");
+		} catch (Exception e) {
+			System.out.println("allSpareGame() Test Fail!");
+		}
 	}
 	
 	@Test
 	public void perfectGame() {
 		score.initialization();
 		rollMany(12, 10);
-		assertThat(score.score(10).get(9), is(300));
+		try {
+			assertThat(score.score(10).get(9), is(300));
+			System.out.println("perfectGame() Test Success!");
+		} catch (Exception e) {
+			System.out.println("perfectGame() Test Fail!");
+		}
 	}
 	
 	@Test
@@ -97,7 +128,12 @@ public class ScoreTest {
 		rollStrike();
 		score.roll(3);
 		score.roll(5);
-		assertThat(score.score(3).get(2), is(35));
+		try {
+			assertThat(score.score(3).get(2), is(35));
+			System.out.println("randomGame() Test Success!");
+		} catch (Exception e) {
+			System.out.println("randomGame() Test Fail!");
+		}
 	}
 
 }

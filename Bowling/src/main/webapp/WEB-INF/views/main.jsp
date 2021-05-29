@@ -12,12 +12,14 @@
 	a { color: #000; }
 	.container {
 		width: 1080px !important; 
-		min-height:500px !important; 
-		margin: 35px auto !important; 
-		position: relative !important; 
+		min-height: 500px !important; 
+		margin: 0 auto !important; 
 	}
 	h3 { font-weight: 900; }
 	a:link, a:visited { text-decoration: none; }
+	
+	.leftWrap { margin: 35px 0 0 0; }
+	
 	select {
 	  padding: 6px 10px; 
 	  font-size: 0.9rem;
@@ -56,14 +58,14 @@
     	margin: 5px 0 0 5px;
 	}
 	.gameListWrap {
-		position: absolute;
-		top: 0; right: 50px;
+		margin: 35px 0 0 20px;
 	}
-	.nav-tabs-custom { width: 350px; background-color: #fff; }
+	.nav-tabs-custom { width: 450px; background-color: #fff; }
 	.nav-tabs > li { width: 50%; height: 35px; line-height: 35px; text-align: center; font-weight: 900; }
 	.nav-tabs > li > a { display: block; border: 1px solid #999999; }
 	.nav-tabs > li > a.active { background-color: #999999; color: #fff; }
-	.tab-pane { padding: 10px 15px; height: 385px; overflow-y: scroll; }
+	.tab-pane { padding: 15px 20px; height: 385px; overflow-y: scroll; }
+	.tab-pane > div { margin: 5px 0; }
 	.tab-pane span {
 	    padding: 6px;
     	border-radius: 4px;
@@ -79,81 +81,85 @@
 </head>
 <body>
 	<div class="container">
-		<div class="">
-			<h3>Ranking Top 5&nbsp;&nbsp;<a onclick="resetRank();"><i class="fas fa-sync-alt" style="font-size: 18px;"></i></a></h3>
-			<div id="rankingList"></div>
-		</div>
-		<div class="scoreBoardWrap">
-			<h3>Score Board</h3>
-			<form action="newGame" method="post" id="newGameForm">
-				<div>
-					<select id="numberOfPlayer" name="numberOfPlayer"
-						onchange="selectPlayer()">
-						<option selected="selected" value="0" disabled>플레이어 수</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select>
-					<div id="inputPlayer">
-						
-					</div>
+		<div class="row">
+			<div class="leftWrap col-sm">
+				<div class="">
+					<h3>Ranking Top 5&nbsp;&nbsp;<a onclick="resetRank();"><i class="fas fa-sync-alt" style="font-size: 18px;"></i></a></h3>
+					<div id="rankingList"></div>
 				</div>
-				<a onclick="newGame();" class="btn btn-block btn-danger btn-lg" style="width: 150px; font-weight: 900;">Game Start!</a>
-			</form>
-		</div>
-		<div class="gameListWrap">
-			<h3>Game List</h3>
-			<p>저장된 게임을 불러올 수 있습니다.</p>
-			<c:choose>
-				<c:when test="${fn:length(game) ne 0 || !empty game}">
-					<div>
-						<div class="nav-tabs-custom">
-							<ul class="nav nav-tabs">
-								<li><a href="#tab_1" data-toggle="tab" aria-expanded="true" class="active">진행 중</a></li>
-								<li><a href="#tab_2" data-toggle="tab" aria-expanded="false">게임 종료</a></li>
-							</ul>
-							<div class="tab-content">
-								<div class="tab-pane active" id="tab_1">
-									<c:choose>
-										<c:when test="${fn:length(proceeding) ne 0 || !empty proceeding}">
-											<c:forEach items="${proceeding }" var="vo" varStatus="status">
-												<div>
-													<span style="background-color: #119665;"><fmt:formatDate value="${vo.startDate }" pattern="yyyy년 MM월 dd일" /></span>
-													<a href="loadGame?gseq=${vo.gseq}">
-														<b>${vo.firstPlayer }</b>
-														<c:if test="${vo.numberOfPlayer ne 1 }">외 ${vo.numberOfPlayer - 1 } 명</c:if>
-													</a>
-												</div>
-											</c:forEach>
-										</c:when>
-										<c:otherwise>진행중인 게임이 존재하지 않습니다.</c:otherwise>
-									</c:choose>
-								</div>
-								<div class="tab-pane" id="tab_2">
-									<c:choose>
-										<c:when test="${fn:length(gameover) ne 0 || !empty gameover}">
-											<c:forEach items="${gameover }" var="vo" varStatus="status">
-												<div>
-													<span style="background-color: #707070;"><fmt:formatDate value="${vo.startDate }" pattern="yyyy년 MM월 dd일" /></span>
-													<a href="loadGame?gseq=${vo.gseq}">
-														<b>${vo.firstPlayer }</b>
-														<c:if test="${vo.numberOfPlayer ne 1 }">외 ${vo.numberOfPlayer - 1 } 명</c:if>
-													</a>
-												</div>
-											</c:forEach>
-										</c:when>
-										<c:otherwise>종료한 게임이 존재하지 않습니다.</c:otherwise>
-									</c:choose>
+				<div class="scoreBoardWrap">
+					<h3>Score Board</h3>
+					<form action="newGame" method="post" id="newGameForm">
+						<div>
+							<select id="numberOfPlayer" name="numberOfPlayer"
+								onchange="selectPlayer()">
+								<option selected="selected" value="0" disabled>플레이어 수</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+							</select>
+							<div id="inputPlayer">
+								
+							</div>
+						</div>
+						<a onclick="newGame();" class="btn btn-block btn-danger btn-lg" style="width: 150px; font-weight: 900;">Game Start!</a>
+					</form>
+				</div> <!-- .scoreBoardWrap -->
+			</div> <!-- .col -->
+			<div class="gameListWrap col-sm">
+				<h3>Game List</h3>
+				<p>저장된 게임을 불러올 수 있습니다.</p>
+				<c:choose>
+					<c:when test="${fn:length(game) ne 0 || !empty game}">
+						<div>
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs">
+									<li><a href="#tab_1" data-toggle="tab" aria-expanded="true" class="active">진행 중</a></li>
+									<li><a href="#tab_2" data-toggle="tab" aria-expanded="false">게임 종료</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1">
+										<c:choose>
+											<c:when test="${fn:length(proceeding) ne 0 || !empty proceeding}">
+												<c:forEach items="${proceeding }" var="vo" varStatus="status">
+													<div>
+														<span style="background-color: #119665;"><fmt:formatDate value="${vo.startDate }" pattern="yyyy년 MM월 dd일" /></span>
+														<a href="loadGame?gseq=${vo.gseq}">
+															<b>${vo.firstPlayer }</b>
+															<c:if test="${vo.numberOfPlayer ne 1 }">외 ${vo.numberOfPlayer - 1 } 명</c:if>
+														</a>
+													</div>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>진행중인 게임이 존재하지 않습니다.</c:otherwise>
+										</c:choose>
+									</div>
+									<div class="tab-pane" id="tab_2">
+										<c:choose>
+											<c:when test="${fn:length(gameover) ne 0 || !empty gameover}">
+												<c:forEach items="${gameover }" var="vo" varStatus="status">
+													<div>
+														<span style="background-color: #707070;"><fmt:formatDate value="${vo.startDate }" pattern="yyyy년 MM월 dd일" /></span>
+														<a href="loadGame?gseq=${vo.gseq}">
+															<b>${vo.firstPlayer }</b>
+															<c:if test="${vo.numberOfPlayer ne 1 }">외 ${vo.numberOfPlayer - 1 } 명</c:if>
+														</a>
+													</div>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>종료한 게임이 존재하지 않습니다.</c:otherwise>
+										</c:choose>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</c:when>
-				<c:otherwise><div>등록된 게임 리스트가 존재하지 않습니다!</div></c:otherwise>
-			</c:choose>
-		</div>
-	</div>
+					</c:when>
+					<c:otherwise><div>등록된 게임 리스트가 존재하지 않습니다!</div></c:otherwise>
+				</c:choose>
+			</div>
+		</div> <!-- .row -->
+	</div> <!-- .container -->
 	<script type="text/javascript">
 		resetRank();
 

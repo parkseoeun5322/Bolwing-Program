@@ -536,8 +536,7 @@
 			//setPlayerName(name);
 			//printTurn(pseq, frame);
 			$(".deleteBtn").css("display", "inline");
-		}
-
+		} //resetUpdate()
 	</script>
 </body>
 </html>

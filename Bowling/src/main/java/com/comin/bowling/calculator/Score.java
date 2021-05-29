@@ -3,6 +3,8 @@ package com.comin.bowling.calculator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.comin.bowling.vo.GameVO;
+
 public class Score {
 	private ArrayList<Integer> pinList;
 	int score;
@@ -75,27 +77,40 @@ public class Score {
 					bonusList.add("");
 				}
 			} else {
+				// 10프레임의 1투구
 				if(pinList.get(18) != null) {
-					if(pinList.get(18) == 10) bonusList.add("isStrike");
-					else {
+					if(pinList.get(18) == 10) {
+						bonusList.add("isStrike");
+					} else {
 						bonusList.add("");
 					}
 				} 
 				
+				// 10프레임의 2투구
 				if(pinList.get(19) != null) {
-					if(pinList.get(19) == 10 && pinList.get(18) == 10) bonusList.add("isStrike"); //0/10
-					else if(pinList.get(18) + pinList.get(19) == 10 && pinList.get(19) != 0) bonusList.add("isSpare");
-					// 10 0 x
+					if(pinList.get(19) == 10 && pinList.get(18) == 10) {
+						//0 10 x일 경우 두번째 투구는 스트라이트 X
+						bonusList.add("isStrike"); 
+					} else if(pinList.get(18) + pinList.get(19) == 10 && pinList.get(19) != 0) {
+						//10 0 x일 경우 두번째 투구는 스페어 X
+						bonusList.add("isSpare");
+					}
 					else bonusList.add("");
 				}
 				
+				// 10프레임의 3투구
 				if(pinList.get(20) != null) {
-					if(pinList.get(20) == 10 && pinList.get(19) != 0) bonusList.add("isStrike");
-					else if(pinList.get(19) + pinList.get(20) == 10
+					if(pinList.get(20) == 10 && pinList.get(19) != 0) {
+						//10 0 10일 경우 세번째 투구는 스트라이크 X
+						bonusList.add("isStrike");
+					} else if(pinList.get(19) + pinList.get(20) == 10
 							&& pinList.get(20) != 0 
-							&& (pinList.get(18) + pinList.get(19) != 10 || pinList.get(18) == 10) ) bonusList.add("isSpare");
-					//10 10 0 / 5 5 5 / 10 0 10
-					else bonusList.add("");
+							&& (pinList.get(18) + pinList.get(19) != 10 || pinList.get(18) == 10) ) {
+							//10 10 0 / 5 5 5 / 10 0 10일 경우 세번째 투구는 스페어 X
+						bonusList.add("isSpare");
+					} else {
+						bonusList.add("");
+					}
 				}
 			}
 			frameNum += 2;
