@@ -27,9 +27,11 @@
               </div>
               <div class="modal-body">
               	<div style="margin: 0 0 20px 0;">
-	              	<input type="text" id="modal-search-text" value="광주 볼링장" 
-	              			style="line-height: 34px; width: 400px; padding-left: 15px;">
-	              	<input type="button" id="modal-search" class="btn btn-outline btn-secondary" value="검색">
+	              	<input type="text" id="modal-search-text" value="광주 볼링장"
+	              		   onkeypress="if( event.keyCode==13 ){ searchBowling(); }"
+	              		   style="line-height: 34px; width: 400px; padding-left: 15px;">
+	              	<input type="button" id="modal-search" class="btn btn-outline btn-secondary"  
+	              		   onclick="searchBowling();" value="검색">
               	</div>
                 <div id="map" style="height: 300px;"></div>
               </div>
@@ -47,6 +49,7 @@
 		var modal = document.getElementById("modal-danger");
 		var map = null;
 
+		// 볼링장 위치찾기 버튼 클릭시 실행되는 이벤트 핸들러
 		$(".btn-danger").on("click", function() {
 			// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
 			var infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -72,18 +75,12 @@
 
 				// 마커가 지도 위에 표시되도록 설정합니다
 				marker.setMap(map);
-
-				// 마커에 클릭이벤트를 등록합니다
-			    kakao.maps.event.addListener(marker, 'click', function() {
-			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			        infowindow.setContent('<div style="padding:5px;font-size:12px;">가민정보시스템 </div>');
-			        infowindow.open(map, marker);
-			    });
 				
 			}, 300);
 		});
 
-		$("#modal-search").on("click", function() {
+		// 모달 창의 검색 버튼의 onclick 속성에 걸려있는 이벤트 메소드
+		function searchBowling() {
 			// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
 			var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 			
@@ -126,8 +123,7 @@
 			        infowindow.open(map, marker);
 			    });
 			}
-		});
-		
+		} //searchBowling()
 	</script>
 </body>
 </html>

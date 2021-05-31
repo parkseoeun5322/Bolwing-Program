@@ -161,9 +161,20 @@
 		</div> <!-- .row -->
 	</div> <!-- .container -->
 	<script type="text/javascript">
+		/*
+		1. resetRank() : 랭킹 새로고침 버튼의 onclick 속성의 이벤트 메소드
+						 ajax 비동기 통신 방식을 통해 include하는 형식
+		2. selectPlayer() : select 요소의 option 값이 바뀔 때마다 실행되는 메소드(select 요소의 onchange 속성에 걸려있는 이벤트 메소드)
+							선택한 값에 따라 플레이어의 이름을 입력받는 요소를 추가 or 삭제
+		3. newGame() : 게임 시작 버튼의 onclick 속성에 걸려있는 이벤트 메소드
+					      플레이어 정보를 입력받는 form을 submit
+		4. removePlayer() : 플레이어 이름을 입력받는 요소 옆 -버튼의 onclick 속성에 걸려있는 이벤트 메소드
+							삭제한 해당 요소를 제거
+		*/
+		
 		resetRank();
 
-		//랭킹 관리 새로 고침시 실행되는 메소드 
+		// 랭킹 새로고침 버튼의 onclick 속성의 이벤트 메소드(랭킹 관리 새로 고침시 실행되는 메소드)
 		function resetRank() {
 			$.ajax({
 				url : "resetRank",
@@ -177,17 +188,17 @@
 			});
 		} //resetRank()
 
-		//플레이어 수 추가 시 input 요소 추가 메소드
+		//플레이어 수 추가 시 input 요소 추가 메소드(onchange 속성의 이벤트 메소드)
 		function selectPlayer() {
 			var player = $(".playerInfo").length;
 			//var numberOfPlayer = $("#numberOfPlayer");
 			var selectValue = $("#numberOfPlayer option:selected").val();
 
-			if (player > selectValue) {
+			if (player > selectValue) {		//선택한 수보다 인풋 요소의 갯수가 더 큰 경우
 				for (var i = player - selectValue; i > 0; i--) {
 					$(".playerInfo").last().remove();
 				}
-			} else {
+			} else {	//선택한 수보다 인풋 요소의 갯수가 더 적은 경우
 				for (var i = 1; i <= selectValue - player; i++) {
 					var txt = "<div class='input-group playerInfo'>";
                 	txt += "<span class='input-group-addon'><i class='fas fa-user'></i></span>";
@@ -199,24 +210,24 @@
 			}
 
 			// 플레이어를 선택할 때마다 요소에 따라 name 재설정
-			$(".playerName").each(
-				function(index) {
-					if (index == 0) {
-						$(this).attr({
-							"name" : "firstPlayer",
-							"placeholder" : "대표 플레이어 이름"
-						}).next().attr("onclick",
-								"removePlayer(" + (index + 1) + ")");
-					} else {
-						$(this).attr({
-							"name" : "player" + (index + 1),
-							"placeholder" : "플레이어 이름"
-						}).next().attr("onclick",
+			$(".playerName").each(function(index) {
+				if (index == 0) {
+					$(this).attr({
+						"name" : "firstPlayer",
+						"placeholder" : "대표 플레이어 이름"
+					}).next().attr("onclick",
 							"removePlayer(" + (index + 1) + ")");
-					}
-				});
+				} else {
+					$(this).attr({
+						"name" : "player" + (index + 1),
+						"placeholder" : "플레이어 이름"
+					}).next().attr("onclick",
+						"removePlayer(" + (index + 1) + ")");
+				}
+			});
 		} //selectPlayer()
-
+		
+		//게임 시작 버튼의 onclick 속성에 걸려있는 이벤트 메소드
 		function newGame() {
 			var numberOfPlayer = document.getElementById("numberOfPlayer");
 			var selectValue = numberOfPlayer.options[numberOfPlayer.selectedIndex].value;
@@ -228,14 +239,15 @@
 						alert("플레이어 이름을 입력해주세요.");
 						return false;
 					} else {
-						if ((index + 1) == selectValue)
+						if((index + 1) == selectValue)
 							$("#newGameForm").submit();
 						// 마지막 요소까지 플레이어 이름이 입력된 후에 submit을 시켜준다.
 					}
 				});
 			}
 		} //newGame()
-
+		
+		// -버튼의 onclick 속성의 이벤트 메소드(요소 삭제시)
 		function removePlayer(playerNum) {
 			if (playerNum == 1) {
 				alert("대표 플레이어는 삭제하실 수 없습니다.");
@@ -247,7 +259,6 @@
 					.attr("onclick", "removePlayer(" + (index + 1) + ")");
 				});
 			}
-
 		} //removePlayer()
 	</script>
 </body>

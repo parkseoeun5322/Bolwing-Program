@@ -39,8 +39,13 @@ public class ScoreTest {
 	
 	@Test
 	public void canRoll() {
-		score.initialization();
-		score.roll(0);
+		try {
+			score.initialization();
+			score.roll(0);
+			System.out.println("canRoll() Test Success!");
+		} catch (Exception e) {
+			System.out.println("canRoll() Test Fail!");
+		}
 	}
 	
 	@Test

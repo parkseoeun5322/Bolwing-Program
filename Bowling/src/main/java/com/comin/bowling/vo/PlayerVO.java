@@ -12,7 +12,8 @@ public class PlayerVO {
 	private String firstPlayer;		//대표 플레이어 이름(DB X)
 	private int numberOfPlayer;		//게임 인원 수(DB X)
 	private Date startDate;			//게임 시작날짜(DB X)
-	private String gameover;		//게임 종료 여부
+	
+	private String gameover;		//플레이어별 게임 종료 여부(DB X)
 
 	private Integer pseq;			//플레이어 번호
 	private Integer gseq;			//게임 고유 번호

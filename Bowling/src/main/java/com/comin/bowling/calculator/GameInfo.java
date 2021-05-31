@@ -1,6 +1,7 @@
-/**
- * 
+/*
+ * GameInfo.java : 핀을 입력, 삭제할 때마다 게임 정보를 계산
  */
+
 package com.comin.bowling.calculator;
 
 import java.util.List;
@@ -11,7 +12,8 @@ import com.comin.bowling.vo.PlayerVO;
 public class GameInfo {
 	int pseq, frame, turn, remainPin, numberOfPlayer;
 	
-	// pin을 던질 때 게임 정보를 계산하는 메소드 (프레임, 플레이어 순서, 투구 순서 계산)
+	// gameInfoCalc() : 핀을 던질 때마다 게임 정보를 계산하는 메소드
+	// frame(프레임), pseq(플레이어 순서), turn(투구 순서 계산), remainPin(남아있는 핀), proceeding(게임종료여부)을 계산
 	public GameVO gameInfoCalc(GameVO gvo, int rollNum, Integer ball_10_1) {
 		pseq = gvo.getPseq();
 		frame = gvo.getFrame();
@@ -59,7 +61,6 @@ public class GameInfo {
 				gvo.setTotalScore(0);
 				// → 각 플레이어 별 플레이어 정보의 최종 총점 업데이트 시점을 구별하기 위해 0으로 셋팅
 			}
-			
 		}
 		
 		// 플레이어 순서가 플레이어 수보다 커지면 순서를 다시 1번으로 돌리고, 프레임을 증가시킴
@@ -79,7 +80,8 @@ public class GameInfo {
 		return gvo;
 	}
 	
-	// pin을 삭제할 때 게임 정보를 계산하는 메소드
+	// gameInfoDeleteCalc() : 핀을 삭제할 때 게임 정보를 계산하는 메소드
+	// frame(프레임), pseq(플레이어 순서), turn(투구 순서 계산), remainPin(남아있는 핀), proceeding(게임종료여부)을 계산
 	public GameVO gameInfoDeleteCalc(GameVO gvo, List<PlayerVO> list) {
 		pseq = gvo.getPseq();
 		frame = gvo.getFrame();
@@ -90,7 +92,7 @@ public class GameInfo {
 		
 		if(frame == 1 && pseq == 1 && turn == 1) return null;
 		
-		// 플레이어 순서가 1일 경우 마지막 플레이어로 변경하고 프레임은 감소시킨다.
+		// 플레이어 순서가 1일 경우 마지막 플레이어 순서로 변경하고 프레임은 감소시킨다.
 		// 플레이어 순서가 1이 아닐 경우에는 플레이어 순서를 차례로 감소
 		if(turn == 1) {
 			if(pseq != 1) {

@@ -113,7 +113,6 @@ public class GameController {
 		
 		for (PlayerVO vo : list) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			//map = board.scoreBoard(vo, gvo.getFrame(), gvo.getPseq(), gvo.getTurn(), gvo.getNumberOfPlayer());
 			map = board.scoreBoard(vo, gvo);
 			// → DB에 저장되어있는 게임 정보와 핀 점수들을 넘겨
 			//	  각 프레임 별 총점 계산 / 계산된 총점 리스트, 마지막 총점, 보너스 리스트, 플레이어 순서(gvo 플레이어 순서와 다름) 반환
@@ -125,7 +124,7 @@ public class GameController {
 		model.addAttribute("printMap", printMap);
 		model.addAttribute("gvo", gvo);
 		
-		return "scoreBoard2";	
+		return "scoreBoard";	
 	}
 
 	@ResponseBody @RequestMapping("/selfTest")
@@ -154,10 +153,11 @@ public class GameController {
 				} else if(gvo.getTurn() == 2) {
 					if(gvo.getFrame() == 10 && ball_10_1 == 10) {
 						roll = random.nextInt(gvo.getRemainPin());
+						// → 10프레임의 1투구가 스트라이크일 때 0부터 9까지의 랜덤 핀 값으로 초기화
 					} else {
 						roll = gvo.getRemainPin();
+						// → 그 외의 경우는 두번째 투구는 남아있는 핀 값으로 초기화(10프레임 제외)
 					}
-					// → 두번째 투구는 남아있는 핀 값으로 초기화(10프레임 제외)
 				} else if(gvo.getTurn() == 3 && gvo.getRemainPin() != 10) {
 					roll = gvo.getRemainPin();
 					// → 10프레임의 2,3투구가 스페어야하는 경우 남아있는 핀 값으로 초기화
@@ -180,7 +180,7 @@ public class GameController {
 				if(gvo.getFrame() == 10) {
 					list = pService.all_list(gseq);
 					ball_10_1 = list.get(gvo.getPseq()-1).getBall_10_1();
-					// → 플레이어 점수 DB 업데이트 되기전까지는 
+					// →  플레이어 점수 DB 업데이트 되기전까지는 
 					//	 10프레임의 1투구가 DB에 저장되어 있지 않은 경우, 업데이트 후 저장
 				}
 				
@@ -217,7 +217,6 @@ public class GameController {
 				if(i == 10) pinList.add(vo.getBall_10_3());
 			}
 			
-			//map = board.scoreBoard(vo, gvo.getFrame(), gvo.getPseq(), gvo.getTurn(), gvo.getNumberOfPlayer());
 			map = board.scoreBoard(vo, gvo);
 			// → 마지막으로 저장된 게임 정보까지 총점 계산 + 총점 리스트 반환 / 최종 총점 / 보너스 리스트 / 플레이어 순서 반환
 			
@@ -257,7 +256,6 @@ public class GameController {
 			list = pService.all_list(gseq);		//DB에 저장된 모든 플레이어의 핀 점수 리스트 불러옴
 			
 			pvo = list.get(gvo.getPseq()-1);
-			//printMap = board.scoreBoard(pvo, gvo.getFrame(), gvo.getPseq(), gvo.getTurn(), gvo.getNumberOfPlayer());
 			printMap = board.scoreBoard(pvo, gvo);
 			// → 계산하기전 게임 정보와 핀 점수를 넘겨줌으로써 총점 계산 + 총점 리스트 반환 / 마지막 총점 / 보너스 리스트 / 플레이어 번호 반환
 			
@@ -337,7 +335,6 @@ public class GameController {
 				if(pvo.getTotal_score() == null) gvo.setTotalScore(null);
 				// → 스코어보드 이벤트 메시지 출력을 위해 gvo의 총점을 null로 초기화
 				
-				//printMap = board.scoreBoard(pvo, gvo.getFrame(), gvo.getPseq(), gvo.getTurn(), gvo.getNumberOfPlayer());
 				printMap = board.scoreBoard(pvo, gvo);
 				// → 계산된 게임 정보와 핀 점수를 넘겨줌으로써 총점 계산 + 총점 리스트 / 보너스 리스트 / 마지막 총점 / 플레이어 번호 반환
 			} catch (Exception e) {
@@ -397,7 +394,6 @@ public class GameController {
 			// → 추가된 GameVO에 따라 플레이어 정보 중 핀 점수를 셋팅
 		}
 		
-		//printMap = board.scoreBoard(playervo, gvo.getFrame(), gvo.getPseq(), gvo.getTurn(), gvo.getNumberOfPlayer());
 		printMap = board.scoreBoard(playervo, gvo);
 		// → 기존에 저장되어 있는 게임 정보와 수정된 핀 점수들을 넘겨줌으로써
 		//	 해당 플레이어의 총점 계산 + 총점 리스트 / 마지막 총점 / 보너스 리스트 / 플레이어 번호 반환 
@@ -465,5 +461,4 @@ public class GameController {
 		
 		return printMap;
 	}
-
 }
